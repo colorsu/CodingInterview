@@ -10,6 +10,21 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <math.h>
+
+long my_pow(int x, int y)
+{
+    long res = x;
+    if(y == 0) {
+        return 1;
+    }
+
+    for(int i=0; i < y; i++) {
+        res *= x;
+    }
+
+    return res;
+}
 
 /* 動態規劃 O(n^2)*/
 int max_product_after_cutting_1(int len)
@@ -55,6 +70,38 @@ int max_product_after_cutting_1(int len)
 
 }
 
+/*貪婪算法
+ * when n>=5:
+ * 3(n-3) >= 2(n-2)
+ * 2(n-2) > n
+ * */
+int max_product_after_cutting_2(int len)
+{
+    if(len < 2) {
+        return 0;
+    }
+
+    if(len == 2) {
+        return 1;
+    }
+
+    if(len == 3) {
+        return 2;
+    }
+
+    //儘可能多的得到3的段
+    int times_of_3 = len / 3;
+
+    //當剩下的長度爲4時，剪成長度爲2的兩段(2*2 > 3*1)
+    if(len - times_of_3*3 == 1) {
+        times_of_3 -= 1;
+    }
+
+    int times_of_2 = (len - times_of_3*3)/2;
+
+    return (int)(pow(3, times_of_3)) * (int)(pow(2, times_of_2));
+}
+
 
 int main(int argc, char **argv)
 {
@@ -74,7 +121,7 @@ int main(int argc, char **argv)
     len = strtol(argv[1], &end_str, 10);
     printf("\ninput len :%d", len);
 
-    int max = max_product_after_cutting_1(len);
+    int max = max_product_after_cutting_2(len);
     printf("\nMAX:%d\n", max);
 
     return 0;

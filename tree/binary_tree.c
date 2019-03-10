@@ -75,11 +75,13 @@ binary_tree_node *construct_core(int *pre_order_start, int *pre_order_end,
     if(left_len > 0) {
         root->left = construct_core(pre_order_start + 1, left_pre_order_end,
                 mid_order_start, mid_order_root - 1, root);
+        root->left->parent = root;
     }
 
     if(left_len < pre_order_end - pre_order_start) {
         root->right = construct_core(left_pre_order_end + 1, pre_order_end,
                 mid_order_root + 1, mid_order_end, root);
+        root->right->parent = root;
     }
 
     node_cnt++;
@@ -127,7 +129,6 @@ binary_tree_node *get_next(binary_tree_node * node)
         next = parent;
     }
 
-    printf("%p\n", &next);
     return next;
 }
 
@@ -148,6 +149,7 @@ void test_1(void)
     printf("nEXT\n");
     while(node != NULL) {
         printf("%d ",node->val);
+        printf("%p\n", &node);
         tmp = node;
         node = get_next(b_tree);
 

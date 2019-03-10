@@ -3,6 +3,8 @@
     > Author: color
     > mail: colorsu1922@163.com
     > Created Time: Sat 09 Mar 2019 06:57:28 PM CST
+    題目：矩陣中的路徑
+    (剩餘問題：當矩陣中存在不同的路徑時，無法全部找出。)
  ************************************************************************/
 
 #include <stdio.h>
@@ -75,7 +77,7 @@ bool has_path(char *matrix, int rows, int cols, char *path_str)
         return false;
     }
 
-    bool *visited = malloc(rows * cols);
+    bool *visited = (bool *)malloc(rows * cols);
     memset(visited, 0, rows * cols);
 
     int path_len = 0;
